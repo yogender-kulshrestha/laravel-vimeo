@@ -12,8 +12,11 @@ class VimeoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->video_id) {
+            return Vimeo::request('/me/videos/'.$request->video_id, [], 'GET');
+        }
         return Vimeo::request('/me/videos', ['per_page' => 10], 'GET');
     }
 
@@ -25,6 +28,27 @@ class VimeoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function upload(Request $request) {
+        return Vimeo::request(
+            '/me/videos',
+            [
+                'upload' => [
+                    'approach' => 'pull',
+                    'link' => $request->url
+                ],
+            ],
+            'POST'
+        );
+        /*if($request->video) {
+            return Vimeo::upload($request->video, ['name' => 'My Video',
+                'privacy' => [
+                    'view' => 'anybody'
+                ]
+            ]);
+        }
+        return 'video field is required.';*/
     }
 
     /**

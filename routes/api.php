@@ -19,6 +19,8 @@ Route::resources([
     'vimeo' => VimeoController::class,
 ]);
 Route::get('vimeo', [VimeoController::class, 'index']);
+Route::post('upload', [VimeoController::class, 'upload']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
